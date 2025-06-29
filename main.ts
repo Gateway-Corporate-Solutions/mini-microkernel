@@ -99,12 +99,16 @@ async function main() {
       })
       socket.send(modules);
 
-      const json = kernel.execBehavior("getJSON", "https://dummyjson.com/users/1");
+      const url = `https://dummyjson.com/users/${Math.floor(Math.random() * 100)}`;
+      const json = kernel.execBehavior("getJSON", url);
       if (json) {
         json.then((result: any) => {
           socket.send(JSON.stringify({
             type: "json",
-            data: pick(result, ["id", "firstName", "lastName", "email", "bank"]),
+            data: {
+              url: url,
+              ...pick(result, ["id", "firstName", "lastName", "email", "bank"])
+            },
           }));
         }).catch((error: Error) => {
           console.error("Error fetching JSON data:", error);
