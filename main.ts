@@ -64,7 +64,11 @@ async function main() {
       const data = JSON.stringify({
         type: "modules",
         modules: kernel.getModules().map((m) => ({
-          name: m.name
+          name: m.name,
+          methods: m.getMethods().map((method) => ({
+            name: method.name,
+            returns: method.returns.name,
+          })),
         })),
       })
       socket.send(data);

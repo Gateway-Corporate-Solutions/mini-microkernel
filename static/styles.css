@@ -10,7 +10,11 @@ h1 {
   font-size: 36px;
 }
 
-ul {
-  list-style-type: none;
-  font-size: 18px;
+.module {
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 5px;
+  margin: 10px auto;
+  width: 80%;
+  max-width: 500px;
 }

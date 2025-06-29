@@ -25,9 +25,17 @@ window.onload = () => {
         modulesList.appendChild(h2);
         // Populate the list with module names
         data.modules.forEach((module) => {
-          const h4 = document.createElement("h4");
-          h4.textContent = module.name;
-          modulesList.appendChild(h4);
+          const div = document.createElement("div");
+          div.className = "module";
+          const h3 = document.createElement("h3");
+          h3.textContent = module.name;
+          div.appendChild(h3);
+          module.methods.forEach((method) => {
+            const h4 = document.createElement("h4");
+            h4.textContent = `Includes Method: ${method.name}`;
+            div.appendChild(h4);
+          });
+          modulesList.appendChild(div);
         });
       }
     } else {
