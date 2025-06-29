@@ -33,6 +33,17 @@ window.onload = () => {
           modulesList.appendChild(div);
         });
       }
+    } else if (data.type === "json") {
+      const behaviorData = document.getElementById("behavior-data");
+      if (behaviorData) {
+        behaviorData.innerHTML = ""; // Clear existing data
+        const h3 = document.createElement("h3");
+        h3.textContent = "getJSON";
+        behaviorData.appendChild(h3);
+        const h4 = document.createElement("h4");
+        h4.textContent = JSON.stringify(data.data);
+        behaviorData.appendChild(h4);
+      }
     } else {
       console.warn("Unknown message type:", data.type);
     }

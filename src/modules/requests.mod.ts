@@ -8,7 +8,7 @@ export const mod: ModuleType = {
   methods: [
     {
       name: "fetchJSON",
-      returns: typeof JSON,
+      returns: typeof Object,
       method: (url: string) => {
         console.log(`Fetching JSON from ${url}`);
         const data = fetch(url)

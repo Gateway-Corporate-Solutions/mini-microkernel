@@ -30,3 +30,20 @@ h1 {
 .module:hover {
   background-color: #f4f4f4;
 }
+
+#behavior-data {
+  word-break: break-word;
+  margin: auto;
+  padding: 5px;
+  width: 95%;
+  max-width: 1200px;
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  box-shadow: #000 0px 2px 2px;
+}
+
+#behavior-data:hover {
+  background-color: #f4f4f4;
+}

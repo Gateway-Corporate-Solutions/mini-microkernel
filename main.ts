@@ -3,6 +3,11 @@ import { Module } from "./src/module.ts";
 import { Behavior } from "./src/behaviors.ts";
 import { Application, Router } from "oak";
 
+const pick = <Target, KeysToPick extends keyof Target>(
+  targetObj: Target,
+  keys: KeysToPick[]
+) => keys.reduce((acc, key) => ({ ...acc, [key]: targetObj[key] }), {})
+
 const kernel = new Kernel();
 const modulesPath = "./src/modules";
 const behaviorsPath = "./src/behaviors";
@@ -69,15 +74,6 @@ async function main() {
     kernel.getBehaviors().map((m) => m.name),
   );
 
-  const data = kernel.execBehavior("getJSON", "https://dummyjson.com/users/1");
-  if (data) {
-    data.then((result: JSON) => {
-      console.log("Fetched JSON data:", result);
-    }).catch((error: Error) => {
-      console.error("Error fetching JSON data:", error);
-    });
-  }
-
   const app = new Application();
   const router = new Router();
   router.get("/", (context) => {
@@ -91,7 +87,7 @@ async function main() {
     }
     const socket = await context.upgrade();
     socket.onopen = () => {
-      const data = JSON.stringify({
+      const modules = JSON.stringify({
         type: "modules",
         modules: kernel.getModules().map((m) => ({
           name: m.name,
@@ -101,7 +97,19 @@ async function main() {
           })),
         })),
       })
-      socket.send(data);
+      socket.send(modules);
+
+      const json = kernel.execBehavior("getJSON", "https://dummyjson.com/users/1");
+      if (json) {
+        json.then((result: any) => {
+          socket.send(JSON.stringify({
+            type: "json",
+            data: pick(result, ["id", "firstName", "lastName", "email", "bank"]),
+          }));
+        }).catch((error: Error) => {
+          console.error("Error fetching JSON data:", error);
+        });
+      }
     }
   })
   app.use(router.routes());

@@ -1,15 +1,15 @@
 import { Kernel } from "../kernel.ts";
 import { BehaviorType } from "../behaviors.ts";
 
-export const behavior: BehaviorType<JSON | undefined> = {
+export const behavior: BehaviorType<object | undefined> = {
   name: "getJSON",
   requires: ["http/requests"],
   pattern: getJSON,
 }
 
-function getJSON(kernel: Kernel, url: string): JSON | undefined {
+function getJSON(kernel: Kernel, url: string): object | undefined {
   try {
-    const data = kernel.getModule("http/requests")?.callMethod<JSON>(
+    const data = kernel.getModule("http/requests")?.callMethod<object>(
       "fetchJSON",
       url,
     )
