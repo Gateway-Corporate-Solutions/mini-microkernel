@@ -1,30 +1,31 @@
-import { Kernel } from "./kernel.ts";
+// deno-lint-ignore-file no-explicit-any
 
 export type ModuleMethod<K> = (
   ...args: any[]
 ) => K;
 
-export type MethodType = {
+export type MethodType<K> = {
   name: string;
+  returns: K;
   method: ModuleMethod<any>;
 }
 
 export type ModuleType = {
   name: string;
   init: () => void;
-  methods: MethodType[];
+  methods: MethodType<any>[];
 }
 
 export class Module {
   constructor(
     public name: string, 
     private init: () => void, 
-    private methods: MethodType[] = []
+    private methods: MethodType<any>[] = []
   ) {
     this.init();
   }
 
-  getMethods(): MethodType[] {
+  getMethods(): MethodType<any>[] {
     return this.methods;
   }
 

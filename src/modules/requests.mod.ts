@@ -3,11 +3,12 @@ import { ModuleType } from "../module.ts";
 export const mod: ModuleType = {
   name: "http/requests",
   init: () => {
-    console.log("Test module initialized");
+    console.log("Requests module initialized");
   },
   methods: [
     {
       name: "fetchJSON",
+      returns: typeof JSON,
       method: (url: string) => {
         console.log(`Fetching JSON from ${url}`);
         const data = fetch(url)
@@ -18,11 +19,9 @@ export const mod: ModuleType = {
             return response.json();
           })
           .then(data => {
-            console.log("Fetched JSON data:", data);
             return data;
           })
           .catch(error => {
-            console.error("Error fetching JSON:", error);
             throw error;
           });
         return data;

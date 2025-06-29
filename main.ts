@@ -1,5 +1,6 @@
 import { Kernel } from "./src/kernel.ts";
 import { Module } from "./src/module.ts";
+import { Application, Router } from "oak";
 
 const kernel = new Kernel();
 const modulesPath = "./src/modules";
@@ -39,13 +40,48 @@ async function main() {
     try {
       const result = await testModule.callMethod<JSON>(
         "fetchJSON",
-        "https://jsonplaceholder.typicode.com/todos/1",
+        "https://dummyjson.com/users/1",
       );
-      console.log(`Method fetchJSON result:`, result);
+      console.log("Result from fetchJSON:", result);
     } catch (error) {
       console.error(`Error invoking method fetchJSON:`, error);
     }
   }
+
+  const app = new Application();
+  const router = new Router();
+  router.get("/", (context) => {
+    context.response.body = Deno.readTextFileSync("./static/index.html");
+  });
+  router.get("/wss", async (context) => {
+    if (!context.isUpgradable) {
+      context.response.status = 426; // Upgrade Required
+      context.response.body = 'Upgrade Required';
+      return;
+    }
+    const socket = await context.upgrade();
+    socket.onopen = () => {
+      const data = JSON.stringify({
+        type: "modules",
+        modules: kernel.getModules().map((m) => ({
+          name: m.name
+        })),
+      })
+      socket.send(data);
+    }
+  })
+  app.use(router.routes());
+  app.use(router.allowedMethods());
+  app.use(async (context, next) => {
+    const root = "./static";
+    try {
+      await context.send({ root });
+    } catch {
+      next();
+    }
+  });
+  app.listen({ port: 8000 });
+  console.log("Server is running on http://localhost:8000");
 }
 
 main();
