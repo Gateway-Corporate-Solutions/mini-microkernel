@@ -10,11 +10,18 @@ h1 {
   font-size: 36px;
 }
 
+#module-list {
+  column-width: 300px;
+  column-gap: 10px;
+  margin: auto;
+  width: 95%;
+  max-width: 1200px;
+}
+
 .module {
+  break-inside: avoid;;
   background-color: #fff;
   border: 1px solid #000;
   border-radius: 5px;
-  margin: 10px auto;
-  width: 80%;
-  max-width: 500px;
+  margin-bottom: 10px;
 }

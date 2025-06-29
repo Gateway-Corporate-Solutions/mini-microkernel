@@ -34,20 +34,6 @@ async function main() {
     kernel.getModules().map((m) => m.name),
   );
 
-  if (kernel.hasModule("http/requests")) {
-    const testModule = kernel.getModule("http/requests") as Module;
-    console.log(`Invoking methods for module: ${testModule.name}`);
-    try {
-      const result = await testModule.callMethod<JSON>(
-        "fetchJSON",
-        "https://dummyjson.com/users/1",
-      );
-      console.log("Result from fetchJSON:", result);
-    } catch (error) {
-      console.error(`Error invoking method fetchJSON:`, error);
-    }
-  }
-
   const app = new Application();
   const router = new Router();
   router.get("/", (context) => {

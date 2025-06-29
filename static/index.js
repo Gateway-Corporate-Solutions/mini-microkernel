@@ -19,11 +19,6 @@ window.onload = () => {
       const modulesList = document.getElementById("module-list");
       if (modulesList) {
         modulesList.innerHTML = ""; // Clear existing list
-        // Create a new list item for the header
-        const h2 = document.createElement("h2");
-        h2.textContent = "Available Modules:";
-        modulesList.appendChild(h2);
-        // Populate the list with module names
         data.modules.forEach((module) => {
           const div = document.createElement("div");
           div.className = "module";
