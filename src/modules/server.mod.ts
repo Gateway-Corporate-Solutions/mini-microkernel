@@ -42,7 +42,7 @@ export const mod: ModuleType = {
         switch (data.type) {
           case "upload": {
             const { fileName, content } = data;
-            const filePath = `./files/${fileName}`;
+            const filePath = `./static/${fileName}`;
             kernel.execBehavior<void>("editorCommand", "saveFile", filePath, content);
             const file = kernel.execBehavior<Promise<string>>("editorCommand", "openFile", filePath);
             file?.then((content) => {
