@@ -77,35 +77,28 @@ h1 {
   display: none;
 }
 
-#upload-button, #download-button {
+.action {
   margin: 2px;
   padding: 10px 20px;
   font-size: 16px;
-  background-color: #007bff;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.action:hover {
+  filter: brightness(0.9);
+}
+
+#upload-button, #download-button {
+  background-color: #007bff;
 }
 
 #format-button, #hash-button {
-  margin: 2px;
-  padding: 10px 20px;
-  font-size: 16px;
   background-color: #00c466;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
 }
 
 #clear-button {
-  margin: 2px;
-  padding: 10px 20px;
-  font-size: 16px;
   background-color: #ff5722;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
 }

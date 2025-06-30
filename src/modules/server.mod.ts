@@ -37,7 +37,6 @@ export const mod: ModuleType = {
       };
 
       socket.onmessage = (event) => {
-        console.log("WebSocket message received:", event.data);
         const data = JSON.parse(event.data);
         switch (data.type) {
           case "upload": {
