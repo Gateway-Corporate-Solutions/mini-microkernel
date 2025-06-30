@@ -53,7 +53,7 @@ async function loadBehaviors(path: string): Promise<void> {
   }
 }
 
-async function main() {
+export async function main() {
   console.log("Starting kernel...");
 
   console.log("Registering modules...");
@@ -71,4 +71,4 @@ async function main() {
   );
 }
 
-main();
+await main();
