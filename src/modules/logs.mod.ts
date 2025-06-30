@@ -9,22 +9,25 @@ export const mod: ModuleType = {
     {
       name: "log",
       returns: typeof void 0,
-      method: (message: string) => {
+      method: (socket: WebSocket, message: string) => {
         console.log(`Log: ${message}`);
+        socket.send(JSON.stringify({ type: "log", message }));
       },
     },
     {
       name: "error",
       returns: typeof void 0,
-      method: (message: string) => {
+      method: (socket: WebSocket, message: string) => {
         console.error(`Error: ${message}`);
+        socket.send(JSON.stringify({ type: "error", message }));
       },
     },
     {
       name: "warn",
       returns: typeof void 0,
-      method: (message: string) => {
+      method: (socket: WebSocket, message: string) => {
         console.warn(`Warning: ${message}`);
+        socket.send(JSON.stringify({ type: "warn", message }));
       },
     },
   ],

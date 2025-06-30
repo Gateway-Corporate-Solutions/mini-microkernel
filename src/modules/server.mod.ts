@@ -65,11 +65,7 @@ export const mod: ModuleType = {
                 content: formatted,
               }));
             } catch (error) {
-              console.error("Error formatting JSON:", error);
-              socket.send(JSON.stringify({
-                type: "error",
-                message: "Invalid JSON string provided for prettification.",
-              }));
+              kernel.execBehavior<void>("logCommand", "error", socket, "Error formatting content: " + error);
             }
             break;
           }
@@ -84,11 +80,7 @@ export const mod: ModuleType = {
                 }));
               })
             } catch (error) {
-              console.error("Error hashing string:", error);
-              socket.send(JSON.stringify({
-                type: "error",
-                message: "Error hashing string.",
-              }));
+              kernel.execBehavior<void>("logsCommand", "error", socket, "Error hashing content: " + error);
             }
             break;
           }

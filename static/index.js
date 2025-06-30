@@ -18,8 +18,8 @@ window.onload = () => {
       console.log(data.message);
     } else if (data.type === "error") {
       console.error(data.message);
-    } else if (data.type === "info") {
-      console.info(data.message);
+    } else if (data.type === "warn") {
+      console.warn(data.message);
     } else if (data.type === "modules") {
       const modulesList = document.getElementById("module-list");
       if (modulesList) {
