@@ -2,11 +2,6 @@ import { ModuleType } from "../module.ts";
 import { Kernel } from "../kernel.ts";
 import { Application, Router } from "oak";
 
-const pick = <Target, KeysToPick extends keyof Target>(
-  targetObj: Target,
-  keys: KeysToPick[],
-) => keys.reduce((acc, key) => ({ ...acc, [key]: targetObj[key] }), {});
-
 export const mod: ModuleType = {
   name: "http-server",
   init: (kernel: Kernel) => {
