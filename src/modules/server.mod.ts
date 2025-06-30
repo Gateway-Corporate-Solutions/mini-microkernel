@@ -97,7 +97,7 @@ export const mod: ModuleType = {
         next();
       }
     });
-    app.listen({ port: 80 });
-    console.log("Server is running on http://localhost");
+    app.listen({ port: 8000 });
+    console.log("Server is running on http://localhost:8000");
   },
 };
