@@ -42,7 +42,7 @@ window.onload = () => {
         h3.textContent = "getJSON";
         div.appendChild(h3);
         const h4 = document.createElement("h4");
-        h4.textContent = JSON.stringify(data.data);
+        h4.innerHTML = "Requires: [http/requests]<br>" + JSON.stringify(data.data);
         div.appendChild(h4);
         behaviors.appendChild(div);
       }
@@ -55,7 +55,7 @@ window.onload = () => {
         h3.textContent = "benchmarkHashing";
         div.appendChild(h3);
         const h4 = document.createElement("h4");
-        h4.innerHTML = `Function: SHA-256 Hash<br>Duration: ${data.duration}s`;
+        h4.innerHTML = `Requires: [hash, benchmarks]<br>Function: SHA-256 Hash<br>Duration: ${data.duration}s`;
         div.appendChild(h4);
         behaviors.appendChild(div);
       }
