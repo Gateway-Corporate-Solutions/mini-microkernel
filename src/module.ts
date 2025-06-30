@@ -12,17 +12,19 @@ export type MethodType<K> = {
 
 export type ModuleType = {
   name: string;
-  init: () => void;
-  methods: MethodType<any>[];
+  init: (...args: any[]) => void;
+  args?: any[];
+  methods?: MethodType<any>[];
 }
 
 export class Module {
   constructor(
     public name: string, 
-    private init: () => void, 
+    private init: (...args: any[]) => void,
+    private args: any[] = [],
     private methods: MethodType<any>[] = []
   ) {
-    this.init();
+    this.init(...args);
   }
 
   getMethods(): MethodType<any>[] {
