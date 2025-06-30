@@ -4,8 +4,7 @@
     "start": "deno run --allow-all main.ts"
   },
   "imports": {
-    "oak": "jsr:@oak/oak",
-    "webview": "jsr:@webview/webview@0.9.0"
+    "oak": "jsr:@oak/oak"
   },
   "nodeModulesDir": "auto",
   "exclude": ["node_modules", "**/*.js"],
