@@ -6,8 +6,8 @@ import { Application, Router } from "oak";
 
 const pick = <Target, KeysToPick extends keyof Target>(
   targetObj: Target,
-  keys: KeysToPick[]
-) => keys.reduce((acc, key) => ({ ...acc, [key]: targetObj[key] }), {})
+  keys: KeysToPick[],
+) => keys.reduce((acc, key) => ({ ...acc, [key]: targetObj[key] }), {});
 
 export const mod: ModuleType = {
   name: "http-server",
@@ -15,7 +15,7 @@ export const mod: ModuleType = {
     const app = new Application();
     const router = new Router();
     router.get("/", (context) => {
-      context.response.body = Deno.readTextFileSync("./static/index.html");
+      context.response.body = Deno.readTextFileSync("./index.html");
     });
     router.get("/wss", async (context) => {
       if (!context.isUpgradable) {
@@ -29,10 +29,12 @@ export const mod: ModuleType = {
           type: "modules",
           modules: kernel.getModules().map((m) => ({
             name: m.name,
-            methods: m.getMethods ? m.getMethods()!.map((method) => ({
-              name: method.name,
-              returns: method.returns.name,
-            })) : [],
+            methods: m.getMethods
+              ? m.getMethods()!.map((method) => ({
+                name: method.name,
+                returns: method.returns.name,
+              }))
+              : [],
           })),
         });
         socket.send(modules);
@@ -51,18 +53,29 @@ export const mod: ModuleType = {
               },
             }));
           }).catch((error: Error) => {
-            console.error("Error fetching JSON data:", error);
-          });
-
-          const hashBenchmark = kernel.execBehavior<number>("benchmarkHashing");
-          if (hashBenchmark !== -1) {
             socket.send(JSON.stringify({
-              type: "benchmark",
-              duration: hashBenchmark
+              type: "error",
+              message: `Error fetching JSON: ${error.message}`,
             }));
-          } else {
-            console.error("Benchmarking failed");
-          }
+          });
+        } else {
+          socket.send(JSON.stringify({
+            type: "error",
+            message: "Behavior 'getJSON' returned undefined.",
+          }));
+        }
+
+        const hashBenchmark = kernel.execBehavior<number>("benchmarkHashing");
+        if (hashBenchmark !== -1 && hashBenchmark !== undefined) {
+          socket.send(JSON.stringify({
+            type: "benchmark",
+            duration: hashBenchmark,
+          }));
+        } else {
+          socket.send(JSON.stringify({
+            type: "error",
+            message: "Benchmarking failed or returned undefined.",
+          }));
         }
       };
     });
@@ -78,5 +91,5 @@ export const mod: ModuleType = {
     });
     app.listen({ port: 8000 });
     console.log("Server is running on http://localhost:8000");
-  }
+  },
 };

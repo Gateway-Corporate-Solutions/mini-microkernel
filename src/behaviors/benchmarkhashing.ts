@@ -1,5 +1,3 @@
-// deno-lint-ignore-file ban-types
-
 import { BehaviorType } from "../behaviors.ts";
 import { Kernel } from "../kernel.ts";
 

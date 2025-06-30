@@ -8,7 +8,7 @@ export const mod: ModuleType = {
   methods: [
     {
       name: "hashString",
-      returns: String,
+      returns: typeof String,
       method: (input: string): Promise<string> => {
         const encoder = new TextEncoder();
         const data = encoder.encode(input);
