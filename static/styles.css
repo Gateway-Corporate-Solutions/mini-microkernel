@@ -31,7 +31,7 @@ h1 {
   background-color: #f4f4f4;
 }
 
-#behavior-data {
+.behavior-data {
   word-break: break-word;
   margin: auto;
   padding: 10px;
@@ -44,6 +44,6 @@ h1 {
   box-shadow: #000 0px 2px 2px;
 }
 
-#behavior-data:hover {
+.behavior-data:hover {
   background-color: #f4f4f4;
 }

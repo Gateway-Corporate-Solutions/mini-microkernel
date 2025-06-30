@@ -1,4 +1,4 @@
-// deno-lint-ignore-file ban-types
+// deno-lint-ignore-file no-explicit-any
 
 import { ModuleType } from "../module.ts";
 
@@ -11,14 +11,14 @@ export const mod: ModuleType = {
     {
       name: "runBenchmark",
       returns: typeof Number,
-      method: (func: Function) => {
+      method: (func: (...args: any[]) => any, args: any[]) => {
         console.log(`Running benchmark on function ${func.name}:`);
         const start = performance.now();
-        func();
+        func(...args);
         const end = performance.now();
         const duration = end - start;
-        console.log(`Benchmark on function ${func.name} completed in ${duration} ms`);
-        return { duration };
+        console.log(`Benchmark on function completed in ${duration}s`);
+        return duration;
       },
     },
   ],

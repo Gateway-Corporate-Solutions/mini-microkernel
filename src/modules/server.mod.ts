@@ -40,7 +40,7 @@ export const mod: ModuleType = {
         const url = `https://dummyjson.com/users/${
           Math.floor(Math.random() * 100)
         }`;
-        const json = kernel.execBehavior("getJSON", url);
+        const json = kernel.execBehavior<Promise<object>>("getJSON", url);
         if (json) {
           json.then((result: any) => {
             socket.send(JSON.stringify({
@@ -53,6 +53,16 @@ export const mod: ModuleType = {
           }).catch((error: Error) => {
             console.error("Error fetching JSON data:", error);
           });
+
+          const hashBenchmark = kernel.execBehavior<number>("benchmarkHashing");
+          if (hashBenchmark !== -1) {
+            socket.send(JSON.stringify({
+              type: "benchmark",
+              duration: hashBenchmark
+            }));
+          } else {
+            console.error("Benchmarking failed");
+          }
         }
       };
     });

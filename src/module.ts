@@ -31,12 +31,16 @@ export class Module {
     return this.methods;
   }
 
+  getMethod(methodName: string): MethodType<any> | undefined {
+    return this.methods.find(m => m.name === methodName);
+  }
+
   callMethod<K>(methodName: string, ...args: any[]): K {
     const method = this.methods.find(m => m.name === methodName);
     if (!method) {
       throw new Error(`Method ${methodName} not found in module ${this.name}`);
     }
-    return method.method(...args) as K;
+    return method.method(...args);
   }
 
   hasMethod(methodName: string): boolean {

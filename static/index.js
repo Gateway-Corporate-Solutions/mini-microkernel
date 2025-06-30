@@ -34,15 +34,30 @@ window.onload = () => {
         });
       }
     } else if (data.type === "json") {
-      const behaviorData = document.getElementById("behavior-data");
-      if (behaviorData) {
-        behaviorData.innerHTML = ""; // Clear existing data
+      const behaviors = document.getElementById("behaviors");
+      if (behaviors) {
+        const div = document.createElement("div");
+        div.className = "behavior-data";
         const h3 = document.createElement("h3");
         h3.textContent = "getJSON";
-        behaviorData.appendChild(h3);
+        div.appendChild(h3);
         const h4 = document.createElement("h4");
         h4.textContent = JSON.stringify(data.data);
-        behaviorData.appendChild(h4);
+        div.appendChild(h4);
+        behaviors.appendChild(div);
+      }
+    } else if (data.type === "benchmark") {
+      const behaviors = document.getElementById("behaviors");
+      if (behaviors) {
+        const div = document.createElement("div");
+        div.className = "behavior-data";
+        const h3 = document.createElement("h3");
+        h3.textContent = "benchmarkHashing";
+        div.appendChild(h3);
+        const h4 = document.createElement("h4");
+        h4.innerHTML = `Function: SHA-256 Hash<br>Duration: ${data.duration}s`;
+        div.appendChild(h4);
+        behaviors.appendChild(div);
       }
     } else {
       console.warn("Unknown message type:", data.type);

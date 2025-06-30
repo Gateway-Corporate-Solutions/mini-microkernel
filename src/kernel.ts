@@ -34,7 +34,7 @@ export class Kernel {
     return this.behaviors.find(behavior => behavior.name === behaviorName);
   }
 
-  execBehavior(behaviorName: string, ...args: any[]): any {
+  execBehavior<K>(behaviorName: string, ...args: any[]): K | undefined {
     try {
       const behavior = this.behaviors.find(b => b.name === behaviorName);
       if (!behavior) {
