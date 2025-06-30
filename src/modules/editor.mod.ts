@@ -1,13 +1,13 @@
 import { ModuleType } from "../module.ts";
 
 export const mod: ModuleType = {
-  name: "fileutils",
+  name: "editor",
   init: () => {
-    console.log("FileUtils module initialized");
+    console.log("Editor module initialized");
   },
   methods: [
     {
-      name: "readFile",
+      name: "openFile",
       returns: typeof String,
       method: async (filePath: string): Promise<string> => {
         const data = await Deno.readTextFile(filePath);
@@ -15,7 +15,7 @@ export const mod: ModuleType = {
       },
     },
     {
-      name: "writeFile",
+      name: "saveFile",
       returns: typeof void 0,
       method: async (filePath: string, content: string): Promise<void> => {
         await Deno.writeTextFile(filePath, content);
@@ -29,4 +29,4 @@ export const mod: ModuleType = {
       },
     },
   ]
-};
+}

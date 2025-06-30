@@ -47,19 +47,64 @@ h1 {
   background-color: #f4f4f4;
 }
 
-.behavior-data {
-  word-break: break-word;
-  margin: auto;
-  padding: 10px;
-  width: 95%;
-  max-width: 1200px;
-  background-color: #fff;
-  border: 1px solid #000;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  box-shadow: #000 0px 2px 2px;
+#editor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.behavior-data:hover {
-  background-color: #f4f4f4;
+#text-content {
+  width: 95%;
+  max-width: 1200px;
+  height: 400px;
+  font-family: monospace;
+  font-size: 14px;
+  padding: 10px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+#buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+#file-input {
+  display: none;
+}
+
+#upload-button, #download-button {
+  margin: 0 2px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#format-button, #hash-button {
+  margin: 0 2px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #00c466;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#clear-button {
+  margin: 0 2px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #ff5722;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }

@@ -1,5 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
-
 import { ModuleType } from "../module.ts";
 import { Kernel } from "../kernel.ts";
 import { Application, Router } from "oak";
@@ -14,9 +12,11 @@ export const mod: ModuleType = {
   init: (kernel: Kernel) => {
     const app = new Application();
     const router = new Router();
+
     router.get("/", (context) => {
       context.response.body = Deno.readTextFileSync("./index.html");
     });
+
     router.get("/wss", async (context) => {
       if (!context.isUpgradable) {
         context.response.status = 426; // Upgrade Required
@@ -25,6 +25,7 @@ export const mod: ModuleType = {
       }
       const socket = await context.upgrade();
       socket.onopen = () => {
+        console.log("WebSocket connection established");
         const modules = JSON.stringify({
           type: "modules",
           modules: kernel.getModules().map((m) => ({
@@ -38,47 +39,68 @@ export const mod: ModuleType = {
           })),
         });
         socket.send(modules);
-
-        const url = `https://dummyjson.com/users/${
-          Math.floor(Math.random() * 100)
-        }`;
-        const json = kernel.execBehavior<Promise<object>>("getJSON", url);
-        if (json) {
-          json.then((result: any) => {
-            socket.send(JSON.stringify({
-              type: "json",
-              data: {
-                url: url,
-                ...pick(result, ["firstName", "lastName", "email", "bank"]),
-              },
-            }));
-          }).catch((error: Error) => {
-            socket.send(JSON.stringify({
-              type: "error",
-              message: `Error fetching JSON: ${error.message}`,
-            }));
-          });
-        } else {
-          socket.send(JSON.stringify({
-            type: "error",
-            message: "Behavior 'getJSON' returned undefined.",
-          }));
-        }
-
-        const hashBenchmark = kernel.execBehavior<number>("benchmarkHashing");
-        if (hashBenchmark !== -1 && hashBenchmark !== undefined) {
-          socket.send(JSON.stringify({
-            type: "benchmark",
-            duration: hashBenchmark,
-          }));
-        } else {
-          socket.send(JSON.stringify({
-            type: "error",
-            message: "Benchmarking failed or returned undefined.",
-          }));
-        }
       };
+
+      socket.onmessage = (event) => {
+        console.log("WebSocket message received:", event.data);
+        const data = JSON.parse(event.data);
+        switch (data.type) {
+          case "upload": {
+            const { fileName, content } = data;
+            const filePath = `./files/${fileName}`;
+            kernel.execBehavior<void>("editorCommand", "saveFile", filePath, content);
+            const file = kernel.execBehavior<Promise<string>>("editorCommand", "openFile", filePath);
+            file?.then((content) => {
+              socket.send(JSON.stringify({
+                type: "file",
+                fileName,
+                content,
+              }));
+
+              kernel.execBehavior<void>("editorCommand", "deleteFile", filePath);
+            });
+            break;
+          }
+          case "format": {
+            const { content } = data;
+            try {
+              const formatted = kernel.execBehavior<string>("formatCommand", "prettify", content);
+              socket.send(JSON.stringify({
+                type: "formatted",
+                content: formatted,
+              }));
+            } catch (error) {
+              console.error("Error formatting JSON:", error);
+              socket.send(JSON.stringify({
+                type: "error",
+                message: "Invalid JSON string provided for prettification.",
+              }));
+            }
+            break;
+          }
+          case "hash": {
+            const { content } = data;
+            try {
+              const hash = kernel.execBehavior<Promise<string>>("hashCommand", "hashString", content)
+              hash?.then((result) => {
+                socket.send(JSON.stringify({
+                  type: "hash",
+                  hash: result
+                }));
+              })
+            } catch (error) {
+              console.error("Error hashing string:", error);
+              socket.send(JSON.stringify({
+                type: "error",
+                message: "Error hashing string.",
+              }));
+            }
+            break;
+          }
+        }
+      }
     });
+
     app.use(router.routes());
     app.use(router.allowedMethods());
     app.use(async (context, next) => {
@@ -89,7 +111,7 @@ export const mod: ModuleType = {
         next();
       }
     });
-    app.listen({ port: 8000 });
-    console.log("Server is running on http://localhost:8000");
+    app.listen({ port: 80 });
+    console.log("Server is running on http://localhost");
   },
 };
