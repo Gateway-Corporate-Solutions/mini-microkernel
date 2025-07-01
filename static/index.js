@@ -40,7 +40,9 @@ window.onload = () => {
       }
     } else if (data.type === "file") {
       const textContent = document.getElementById("text-content");
+      const fileNameInput = document.getElementById("file-name");
       if (textContent) {
+        fileNameInput.value = data.fileName; // Assuming fileName is a string
         textContent.value = data.content; // Assuming content is a string
       } else {
         console.warn("Text content area not found.");
@@ -88,11 +90,12 @@ window.onload = () => {
     const downloadButton = document.getElementById("download-button");
     downloadButton.addEventListener("click", () => {
       const textContent = document.getElementById("text-content").value;
+      const fileNameInput = document.getElementById("file-name");
       const blob = new Blob([textContent], { type: "text/plain" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = fileInput.files[0].name; // Default file name
+      a.download = fileNameInput.value || "unnamed.txt"; // Default file name
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -121,8 +124,10 @@ window.onload = () => {
 
     const clearButton = document.getElementById("clear-button");
     clearButton.addEventListener("click", () => {
+      const fileNameInput = document.getElementById("file-name");
       const textContent = document.getElementById("text-content");
       if (textContent) {
+        fileNameInput.value = ""; // Clear the file name input
         textContent.value = ""; // Clear the text area
       } else {
         console.warn("Text content area not found.");
