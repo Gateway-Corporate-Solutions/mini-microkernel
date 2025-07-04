@@ -2,6 +2,10 @@
 
 import { ModuleType } from "../module.ts";
 
+/**
+  * Module that provides utility functions for type manipulation.
+  * It includes methods to pick and omit properties from objects based on keys.
+  */
 export const mod: ModuleType = {
   name: "typeutils",
   init: () => {

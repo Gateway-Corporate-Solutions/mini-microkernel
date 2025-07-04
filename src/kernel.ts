@@ -3,6 +3,11 @@
 import { Behavior } from "./behaviors.ts";
 import { Module } from './module.ts';
 
+
+/**
+  * Kernel class that manages modules and behaviors.
+  * It allows registering, retrieving, and executing behaviors based on the registered modules.
+  */
 export class Kernel {
   constructor(private modules: Module[] = [], private behaviors: Behavior<any>[] = []) {}
 
@@ -34,6 +39,13 @@ export class Kernel {
     return this.behaviors.find(behavior => behavior.name === behaviorName);
   }
 
+  /**
+    * Executes a behavior by its name, passing the provided arguments.
+    * It checks if the required modules for the behavior are available before execution.
+    * @param behaviorName - The name of the behavior to execute.
+    * @param args - Arguments to pass to the behavior's execution function.
+    * @returns The result of the behavior execution or undefined if an error occurs.
+    */
   execBehavior<K>(behaviorName: string, ...args: any[]): K | undefined {
     try {
       const behavior = this.behaviors.find(b => b.name === behaviorName);

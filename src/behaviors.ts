@@ -8,6 +8,10 @@ export type BehaviorType<K> = {
   pattern: (kernel: Kernel, ...args: any[]) => K;
 }
 
+/**
+  * Behavior class that represents a behavior in the microkernel system.
+  * It includes the behavior name, required modules, and a pattern function that defines the behavior's logic.
+  */
 export class Behavior<K> {
   constructor(
     public name: string,
@@ -16,6 +20,12 @@ export class Behavior<K> {
     private pattern: (kernel: Kernel, ...args: any[]) => K
   ) {}
 
+  /**
+    * Executes the behavior's pattern function with the provided arguments.
+    * It uses the kernel instance to access modules and other behaviors.
+    * @param args - Arguments to pass to the pattern function.
+    * @returns The result of the pattern function execution.
+    */
   execPattern(...args: any[]): K {
     return this.pattern(this.kernel, ...args);
   }

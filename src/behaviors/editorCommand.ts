@@ -3,6 +3,11 @@
 import { BehaviorType } from "../behaviors.ts";
 import { Kernel } from "../kernel.ts";
 
+/**
+  * Behavior that executes a command in the editor module.
+  * It requires the "editor" module to be available in the kernel.
+  * The command is executed with the provided arguments.
+  */
 export const behavior: BehaviorType<void> = {
   name: "editorCommand",
   requires: ["editor"],

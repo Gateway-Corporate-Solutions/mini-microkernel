@@ -1,5 +1,9 @@
 import { ModuleType } from "../module.ts";
 
+/**
+  * Module that provides hashing functionality using the Web Crypto API.
+  * It includes a method to hash strings using SHA-256.
+  */
 export const mod: ModuleType = {
   name: "hash",
   init: () => {

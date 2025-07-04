@@ -1,9 +1,5 @@
-function hexDecode(hex) {
-  var back = new Uint8Array(hex.match(/.{1,4}/g).map(byte => parseInt(byte, 16)));
-  return back;
-}
-
 window.onload = () => {
+  // Establish WebSocket connection
   var ws = null;
   if (location.protocol === "https:") {
     ws = new WebSocket(`wss://${location.host}/wss`);
@@ -12,6 +8,7 @@ window.onload = () => {
   }
 
   ws.onmessage = (event) => {
+    // Parse the incoming message
     const data = JSON.parse(event.data);
     console.log("Received message:", data);
     if (data.type === "log") {
@@ -21,6 +18,7 @@ window.onload = () => {
     } else if (data.type === "warn") {
       console.warn(data.message);
     } else if (data.type === "modules") {
+      // List available modules
       const modulesList = document.getElementById("module-list");
       if (modulesList) {
         modulesList.innerHTML = ""; // Clear existing list
@@ -39,6 +37,7 @@ window.onload = () => {
         });
       }
 
+      // Check if the editor module is available. If it is, create the editor interface
       if (data.modules.some(module => module.name === "editor")) {
         // Find the body element
         const body = document.querySelector("body");

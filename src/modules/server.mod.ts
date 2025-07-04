@@ -2,6 +2,11 @@ import { ModuleType } from "../module.ts";
 import { Kernel } from "../kernel.ts";
 import { Application, Router } from "oak";
 
+
+/**
+  * Module that implements an HTTP server with WebSocket support.
+  * It serves static files and handles WebSocket connections for file uploads, formatting, and hashing.
+  */
 export const mod: ModuleType = {
   name: "http-server",
   init: (kernel: Kernel) => {

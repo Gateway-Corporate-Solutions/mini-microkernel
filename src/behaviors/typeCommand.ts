@@ -3,6 +3,11 @@
 import { BehaviorType } from "../behaviors.ts";
 import { Kernel } from "../kernel.ts";
 
+/**
+ * Behavior that executes a command in the typeutils module.
+ * It requires the "typeutils" module to be available in the kernel.
+ * The command is executed with the provided arguments.
+ */
 export const behavior: BehaviorType<void> = {
   name: "typeCommand",
   requires: ["typeutils"],

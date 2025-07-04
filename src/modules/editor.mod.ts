@@ -1,5 +1,9 @@
 import { ModuleType } from "../module.ts";
 
+/**
+  * Module that provides basic file operations for an editor-like environment.
+  * It includes methods to open, save, and delete files.
+  */
 export const mod: ModuleType = {
   name: "editor",
   init: () => {

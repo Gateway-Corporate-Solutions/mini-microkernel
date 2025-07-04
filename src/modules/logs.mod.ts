@@ -1,5 +1,9 @@
 import { ModuleType } from "../module.ts";
 
+/**
+  * Module that provides logging functionality for WebSocket connections.
+  * It includes methods to log messages, errors, and warnings.
+  */
 export const mod: ModuleType = {
   name: "logs",
   init: () => {

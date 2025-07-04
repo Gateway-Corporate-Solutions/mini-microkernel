@@ -1,5 +1,9 @@
 import { ModuleType } from "../module.ts";
 
+/**
+  * Module that provides functionality to format JSON strings.
+  * It includes a method to prettify JSON strings by adding indentation.
+  */
 export const mod: ModuleType = {
   name: "format",
   init: () => {
